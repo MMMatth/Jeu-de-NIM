@@ -17,7 +17,6 @@ fond = pygame.image.load('../img/background.png')
 # creation des joueurs
 player1 = joueur.Joueur()
 player2 = joueur.Joueur()
-
 #boutons cliquables joueur 1
 zone1 = pygame.image.load("../img/b1.png") #image du bouton
 zone1rect = pygame.Rect(10,10,30,30) #rectangle autour de l'image (10,10) coordonnées et (30,30) largeur et hauteur
@@ -46,14 +45,11 @@ allumette = pygame.image.load('../img/allumette.png')
 running = True # variable de la boucle de jeu
 #choix du joueur qui commence au hasard
 n = random.randint(1,2)
-if n == 1 :
-    player1.joue = True
-else :
-    player2.joue = True
+if n == 1 : player1.joue = True
+else : player2.joue = True
     
 #variables de gestion de fin de partie
-fin = False
-augmente_score = False
+fin , augmente_score = False,False
 humainVShumain = True
 
 ### BOUCLE DE JEU  ###
@@ -81,11 +77,41 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
             elif event.type == MOUSEBUTTONUP: # quand je relache le bouton
                 if event.button == 1: # 1= clique gauche
                     if zone1rect.collidepoint(event.pos) and player1.joue == True:
-                        print(1)
+                        print(1,"joueur 1")
                         if nbAllumettes>=2 :
                             nbAllumettes -=1
-                        player1.joue = False
-                        player2.joue = True
+                            player1.joue = False
+                            player2.joue = True
+                    if zone2rect.collidepoint(event.pos) and player1.joue == True:
+                        print(2,"joueur 1")
+                        if nbAllumettes>=3 :
+                            nbAllumettes -=2
+                            player1.joue = False
+                            player2.joue = True
+                    if zone3rect.collidepoint(event.pos) and player1.joue == True:
+                        print(3,"joueur 1")
+                        if nbAllumettes>=4 :
+                            nbAllumettes -=3
+                            player1.joue = False
+                            player2.joue = True
+                    if zone4rect.collidepoint(event.pos) and player2.joue == True:
+                        print(1,"joueur 2")
+                        if nbAllumettes>=2 :
+                            nbAllumettes -=1
+                            player1.joue = True
+                            player2.joue = False
+                    if zone5rect.collidepoint(event.pos) and player2.joue == True:
+                        print(2,"joueur 2")
+                        if nbAllumettes>=3 :
+                            nbAllumettes -=2
+                            player1.joue = True
+                            player2.joue = False
+                    if zone6rect.collidepoint(event.pos) and player2.joue == True:
+                        print(3,"joueur 2")
+                        if nbAllumettes>=4 :
+                            nbAllumettes -=3
+                            player1.joue = True
+                            player2.joue = False
                     ###Question 2) compléter pour les 5 autres zones correspondant aux boutons de jeux
                     ###Pour rejouer, on teste si le joueur appuie sur oui ou non    
                     if ouirect.collidepoint(event.pos) :
@@ -120,7 +146,12 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
             augmente_score = True # permet de dire qu'il faut augmenter le score
         if nbAllumettes == 1 and player2.joue == True :
             ####à compléter question 3)###
-            pass
+            print('joueur1 gagne')
+            fin = True
+            player1.gagne = True
+            player2.joue = None
+            player1.joue = None
+            augmente_score = True # permet de dire qu'il faut augmenter le score
         #affichage du gagnant et du score
         if fin == True : #Si fin de partie
             if player1.gagne :
@@ -130,8 +161,10 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
                     augmente_score = False #permet de n'augmenter le score qu'une seule fois
                     
             else :
-                ###à compléter question 4) pour gérer quand c'est player 2 qui gagne
-                pass
+                label = myfont.render("Le gagnant est joueur2", 1, (255,255,0))
+                if augmente_score == True :
+                    player2.score+=1
+                    augmente_score = False #permet de n'augmenter le score qu'une seule fois
             #gérer la possibilité de rejouer       
             question = myfont.render("Voulez-vous rejouer ?",1,(0,0,0))
             score = myfont.render("joueur 1 a "+str(player1.score)+" points et le joueur 2 a "+str(player2.score)+"points",1,(0,0,0))
