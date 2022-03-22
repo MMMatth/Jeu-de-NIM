@@ -4,6 +4,7 @@ import classGraphOriente as go
 import classJoueur as joueur
 import random
 
+
 # lancement des modules inclus dans pygame
 pygame.init() 
 # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
@@ -24,7 +25,8 @@ G = go.GraphOriente()
 ##créer le graphe de tous les coups possibles sommets + arcs
 
 #boutons cliquables joueur 1
-zone1 = pygame.image.load("../img/b1.png") #image du bouton
+
+zone1 = pygame.image.load() #image du bouton
 zone1rect = pygame.Rect(10,10,30,30) #rectangle autour de l'image (10,10) coordonnées et (30,30) largeur et hauteur
 zone2 = pygame.image.load("../img/b2.png")
 zone2rect=pygame.Rect(10,50,30,30)
@@ -133,6 +135,7 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         screen.blit(zone1,(700,10))
         screen.blit(zone2,(700,50))
         screen.blit(zone3,(700,90))
+        b1.iblit(screen)
 
         if nbAllumettes == 1 and player1.joue == True :
             print('joueur2 gagne')
@@ -178,8 +181,7 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
             for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
                 if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
                     running = False # running est sur False
-                    
-               
+                
                # gestion de la souris
                 elif event.type == MOUSEBUTTONUP: # quand je relache le bouton
                     if event.button == 1: # 1= clique gauche

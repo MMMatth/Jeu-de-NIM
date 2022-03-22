@@ -10,12 +10,13 @@ class Joueur:
         if self.gagne == True : self.score += 1
     
     def change_joueur(self):
-        if self.joue == True: self.joue = False 
-        else: self.joue = True
+        if self.joue == True: 
+            self.joue = False 
+        else: 
+            self.joue = True
     
     def change_gagnant(self):
         self.gagne = True
     
     def set_etat(self,valeur):
         self.etat = valeur
-        
