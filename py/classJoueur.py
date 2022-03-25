@@ -20,3 +20,5 @@ class Joueur:
     
     def set_etat(self,valeur):
         self.etat = valeur
+        
+    
