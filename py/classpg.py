@@ -58,7 +58,7 @@ class game:
 class text:
     """ """
 
-    def __init__(self, texte:str, x:int, y:int, center:str, color=(0, 0, 0), size=32, font="../font/font.ttf"):
+    def __init__(self, texte:str, x:int, y:int, center:str, color=(0, 0, 0), size=32, font="../font/font.otf"):
         """[Class qui permet de créer des textes ]
 
         Args:
@@ -264,8 +264,8 @@ class bouton:
         self.rect.centerx = x
         self.rect.centery = y
         
-        self.taille_max_w = self.h + 20
-        self.taille_max_h = self.w + 20
+        self.taille_max_w = self.h * 1.20
+        self.taille_max_h = self.w * 1.20
         
         self.unzoom = False
 
@@ -300,7 +300,7 @@ class bouton:
         if self.h < self.taille_max_h and self.rect.collidepoint(mousepos):
             self.h += vitesse
             self.w += vitesse
-        elif self.h > self.taille_max_h-20 and not self.rect.collidepoint(mousepos):
+        elif self.h > self.taille_max_h/1.20 and not self.rect.collidepoint(mousepos):
             self.h -= vitesse
             self.w -= vitesse
     

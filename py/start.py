@@ -1,4 +1,4 @@
-import main as jeu
+import menu
 
 if __name__ == '__main__':
-    jeu.menu()
+    menu.menu()
