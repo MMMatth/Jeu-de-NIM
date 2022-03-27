@@ -18,7 +18,7 @@ def changer_tour(cond):
         player2.joue = False
         
 
-def humain():
+def main():
     global player1, player2
     pygame.init() 
 
@@ -133,7 +133,7 @@ def humain():
                     fond = pygame.image.load('../img/background.png')
                                         
                 elif bouton["non"].click(pygame.mouse.get_pos(),event):
-                    menu.menu()
+                    menu.main()
 
             
                     
@@ -184,5 +184,5 @@ def humain():
     
     
 if __name__ == "__main__":
-    humain()
+    main()
     

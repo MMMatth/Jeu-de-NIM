@@ -4,7 +4,7 @@ from pygame.locals import *
 import classpg as pg
 import humain
 
-def menu():
+def main():
     pygame.init() 
 
     screen = pygame.display.set_mode((1168,826))
@@ -30,14 +30,13 @@ def menu():
             screen.blit(fond,(0,0))
             for i in boutons: # on blit les bouton de gauche
                 boutons[i].iblit(screen)
-                boutons[i].hover_big(pygame.mouse.get_pos(),10)
                 
             for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
                 if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
                     running = False # running est sur False
                 if boutons["b1"].click(pygame.mouse.get_pos(),event):
                     running = False
-                    humain.humain()
+                    humain.main()
                 if boutons["b2"].click(pygame.mouse.get_pos(),event):
                     print("1vIA")
                 
@@ -46,4 +45,4 @@ def menu():
     pygame.quit()
     
 if __name__ == "__main__": 
-    menu()
+    main()
