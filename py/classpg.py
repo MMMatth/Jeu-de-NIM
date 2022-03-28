@@ -54,7 +54,15 @@ class game:
         # Actualisation des éléments sur l'écran
         pygame.display.flip()
 
+# class cursor:
+#     def __init__(self, img):
+#         """
+#         __init__ _summary_
 
+#         Args:
+#             img (str): path of the img in xbm format
+#         """
+#         self.cursor = pygame.cursors.load_xbm(img)
 class text:
     """ """
 
