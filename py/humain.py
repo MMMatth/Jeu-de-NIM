@@ -34,6 +34,9 @@ def main():
         
     pygame.display.set_icon(icon)
 
+    clic = pg.son("../song/clic.mp3","song")
+    
+    
     boutons_gauches={
         "b1" : pg.bouton("../img/b1.png",107,260,147,147),
         "b2" : pg.bouton("../img/b2.png",107,445,147,147),
@@ -104,6 +107,7 @@ def main():
                 elif player1.joue == True:
                     for i in boutons_gauches:
                         if boutons_gauches[i].click(pygame.mouse.get_pos(),event):
+                            clic.play()
                             cpt = int(i.replace("b",""))
                             if nbr_sticks>=cpt+1 :
                                 nbr_sticks -= cpt
@@ -112,13 +116,14 @@ def main():
                 elif player2.joue == True:
                     for i in boutons_droits:
                         if boutons_droits[i].click(pygame.mouse.get_pos(),event):
+                            clic.play()
                             cpt = int(i.replace("b",""))
                             if nbr_sticks>=cpt+1 :
                                 nbr_sticks -= cpt
                                 changer_tour(False)
                 
                 elif bouton["oui"].click(pygame.mouse.get_pos(),event):
-                    
+                    clic.play()
                     fin = False
                     if random.randint(1,2) == 1 :
                          
@@ -131,9 +136,11 @@ def main():
                     player1.gagne ,player2.gagne = False, False
                     
                     fond = pygame.image.load('../img/background.png')
-                                        
+                    
                 elif bouton["non"].click(pygame.mouse.get_pos(),event):
+                    clic.play()
                     menu.main()
+                    
 
             
                     

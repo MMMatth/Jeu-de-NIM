@@ -17,6 +17,8 @@ def main():
         
     pygame.display.set_icon(icon)
     
+    clic = pg.son("../song/clic.mp3","song")
+    
     boutons={
         "b1" : pg.bouton("../img/menu_b1.png",585,415,510,145),
         "b2" : pg.bouton("../img/menu_b2.png",585,600,510,145),
@@ -35,9 +37,11 @@ def main():
                 if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
                     running = False # running est sur False
                 if boutons["b1"].click(pygame.mouse.get_pos(),event):
+                    clic.play()
                     running = False
                     humain.main()
                 if boutons["b2"].click(pygame.mouse.get_pos(),event):
+                    clic.play()
                     print("1vIA")
                 
         
