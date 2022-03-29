@@ -6,10 +6,12 @@ import classJoueur as joueur
 import random
 import classpg as pg
 import menu
+import time 
 
 def changer_tour(cond):
     global player1, player2
     if cond:
+        
         player1.joue = False
         player2.joue = True
     else:
@@ -87,6 +89,7 @@ def main():
                 
             if player2.joue == True:
                 pg.text("Joueur 2",590, 70,"center",size = 100, color= "white").iblit(screen)
+                
             
             #affichage des allumettes :
             if not fin:
@@ -136,11 +139,16 @@ def main():
                 #à compléter Partie B question 3) le player2 ordi doit choisir son coups grâce au graphe G des coups
                 #il doit choisir au hasard parmi la liste des arcs issus du sommet correspondant au nb d'allumettes
                 liste_voisins = G.liste_sommets_issus(nbr_sticks)
+                tmp1 = nbr_sticks
                 nbr_sticks = random.choice(liste_voisins)
+                tmp2 = nbr_sticks
                 player2.joue=False
                 player1.joue = True
+                dernier_coup = None
+                
+                
                 # à compléter partie C question 2) : gérer si la liste de coups issus du nbd'allumettes présente est vide (gobelet vide dans vidéo)
-            
+                
             if nbr_sticks == 1 and player1.joue == True :
                 print('joueur2 gagne')
                 fin = True
@@ -155,13 +163,17 @@ def main():
                 player2.joue = None
                 player1.joue = None
                 augmente_score = True
-                #Partie C : question 1) Si le joueur humain gagne , l'ordi supprime son dernier coups pour ne plus le refaire
                 
+                #Partie C : question 1) Si le joueur humain gagne , l'ordi supprime son dernier coups pour ne plus le refaire
+            if player1.gagne:
+                G.supprimer_arc(tmp1,tmp2)
+                print(G,tmp1,tmp2)
             #affichage du gagnant et du score
             if fin == True : #Si fin de partie
                 fond = pygame.image.load('../img/background_end.png')
                 if player1.gagne :
                     pg.img("../img/crown.png",130,160,93,77).iblit(screen)
+                    print(G)
                     if augmente_score == True :
                         player1.score+=1
                         augmente_score = False #permet de n'augmenter le score qu'une seule fois

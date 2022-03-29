@@ -22,7 +22,6 @@ class GraphOriente:
             if self.liste_arcs[i][0] == A:
                 L.append(self.liste_arcs[i][1])
         return L
-    
 # tests
 if __name__ == '__main__':
     G = GraphOriente()

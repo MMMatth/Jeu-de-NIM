@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 import classpg as pg
 import humain
+import IA
 
 def main():
     pygame.init() 
@@ -42,7 +43,8 @@ def main():
                     humain.main()
                 if boutons["b2"].click(pygame.mouse.get_pos(),event):
                     clic.play()
-                    print("1vIA")
+                    running = False
+                    IA.main()
                 
         
             pygame.display.update() # mise à jour pour ajouter tout changement à l'écran
