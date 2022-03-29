@@ -1,2 +1,2 @@
 # Project-jeu-de-nim
-Projet pygame sur un jeu de nim qui prend en compte des graphs
+Pygame project on a nim game that takes into account graphs and an AI
