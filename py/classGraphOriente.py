@@ -3,6 +3,9 @@ class GraphOriente:
         self.liste_sommets = []
         self.liste_arcs = []
     
+    def __str__(self):
+        return str(self.liste_arcs)
+        
     def ajouter_sommet(self,A):
         self.liste_sommets.append(A)
     
