@@ -2,8 +2,7 @@ from re import I
 import pygame
 from pygame.locals import *
 import classpg as pg
-import humain
-import IA
+import game
 
 def main():
     pygame.init() 
@@ -40,11 +39,11 @@ def main():
                 if boutons["b1"].click(pygame.mouse.get_pos(),event):
                     clic.play()
                     running = False
-                    humain.main()
+                    game.main("human")
                 if boutons["b2"].click(pygame.mouse.get_pos(),event):
                     clic.play()
                     running = False
-                    IA.main()
+                    game.main("bot")
                 
         
             pygame.display.update() # mise à jour pour ajouter tout changement à l'écran

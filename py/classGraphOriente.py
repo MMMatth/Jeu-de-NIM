@@ -1,11 +1,36 @@
+from re import I
+
+
 class GraphOriente:
     def __init__(self) -> None:
         self.liste_sommets = []
-        self.liste_arcs = []
+        self.liste_arcs = self.retake()
     
     def __str__(self):
         return str(self.liste_arcs)
-        
+    
+    def save(self):
+        """save function to save the graph in a file"""
+        fichier = open("../other/save.txt", "wt")
+        for i in range(len(self.liste_arcs)):
+            fichier.write(str(self.liste_arcs[i][0]) + "\n" + str(self.liste_arcs[i][1]) + "\n")
+        fichier.close()
+    
+    def retake(self):
+        """
+        retake function to recup the save
+
+        Returns:
+            L (list) : the list of the graph like (self.liste_arcs)
+        """
+        L = []
+        fichier = open("../other/save.txt", "rt")
+        liste = fichier.readlines()
+        for i in range(0,len(liste)-1,2):
+            L.append((int(liste[i].replace("\n", "")) , int(liste[i+1].replace("\n", ""))))
+        fichier.close()
+        return L
+
     def ajouter_sommet(self,A):
         self.liste_sommets.append(A)
     
@@ -25,17 +50,4 @@ class GraphOriente:
 # tests
 if __name__ == '__main__':
     G = GraphOriente()
-    G.ajouter_sommet("A")
-    G.ajouter_sommet("B")
-    G.ajouter_sommet("C")
-    G.ajouter_sommet("D")
-    G.ajouter_arc("A","B")
-    G.ajouter_arc("A","C")
-    G.ajouter_arc("B","D")
-    G.ajouter_arc("C","D")
-    print(G.liste_sommets)
-    print(G.liste_arcs)
-    G.supprimer_arc("A","B")
-    print(G.liste_arcs)
-    print(G.liste_sommets_issus("B"))
-    
+    G.save()
