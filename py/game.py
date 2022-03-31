@@ -188,7 +188,9 @@ class gameclass:
                     #il doit choisir au hasard parmi la liste des arcs issus du sommet correspondant au nb d'allumettes
                     list_neibor = self.graph.liste_sommets_issus(self.nbr_sticks)
                     if len(list_neibor) == 0 :
-                        list_neibor = self.graph.liste_sommets_issus(self.nbr_sticks+1)
+                        self.player1.gagne = True
+                        self.player2.gagne = False
+                        return False
                         
                     self.graph_back = self.nbr_sticks
                     self.nbr_sticks = random.choice(list_neibor)
