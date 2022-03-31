@@ -2,10 +2,18 @@ from re import I
 
 
 class GraphOriente:
-    def __init__(self) -> None:
+    def __init__(self,level) -> None:
         self.liste_sommets = []
-        self.liste_arcs = self.retake()
-    
+        
+        if level == "hard":
+            self.liste_arcs = self.retake("hard")
+        elif level == "meduim":
+            self.liste_arcs = self.retake("meduim")
+        elif level == "simple":
+            self.liste_arcs = self.retake("simple")
+        else:
+            self.liste_arcs = []
+            
     def __str__(self):
         return str(self.liste_arcs)
     
@@ -16,7 +24,7 @@ class GraphOriente:
             fichier.write(str(self.liste_arcs[i][0]) + "\n" + str(self.liste_arcs[i][1]) + "\n")
         fichier.close()
     
-    def retake(self):
+    def retake(self,filename):
         """
         retake function to recup the save
 
@@ -24,7 +32,7 @@ class GraphOriente:
             L (list) : the list of the graph like (self.liste_arcs)
         """
         L = []
-        fichier = open("../other/save.txt", "rt")
+        fichier = open("../other/"+str(filename)+".txt", "rt")
         liste = fichier.readlines()
         for i in range(0,len(liste)-1,2):
             L.append((int(liste[i].replace("\n", "")) , int(liste[i+1].replace("\n", ""))))

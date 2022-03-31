@@ -9,7 +9,7 @@ import menu
 import time 
 
 class gameclass:
-    def __init__(self,bot_or_human):
+    def __init__(self,bot_or_human,level="save"):
         """
         __init__ class of the game of nim is a simple game with a AI 
 
@@ -17,6 +17,7 @@ class gameclass:
             bot_or_human (str): "bot" for play vs a bot or "human" for 1v1
         """
         pygame.init()
+        
         self.bot_or_human = bot_or_human
         self.screen = pygame.display.set_mode((1168,826))
         self.background = pygame.image.load('../img/background.png').convert_alpha()
@@ -24,10 +25,13 @@ class gameclass:
         pygame.display.set_caption("Jeu de Nim") 
         pygame.display.set_icon(pygame.image.load("../img/icon.png"))
         
-        
+        self.clock = pygame.time.Clock()
         self.nbr_sticks = 12
         self.augment_score = False
         self.finish = False 
+        self.level = level
+
+        self.timer = 0
     
         self.player1 = joueur.Joueur()
         self.player2 = joueur.Joueur()
@@ -36,10 +40,17 @@ class gameclass:
         self.click_song = pg.son("../song/clic.mp3","song")
         
         if self.bot_or_human == "bot":
-            self.graph = graphe_oriente.GraphOriente()
-            # self.create_graph()
-            self.graph.save()
-            
+            if self.level == "save":
+                self.graph = graphe_oriente.GraphOriente("save")
+                self.create_graph()
+                self.graph.save()
+            elif self.level == "hard":
+                self.graph = graphe_oriente.GraphOriente("hard")
+            elif self.level == "meduim":
+                self.graph = graphe_oriente.GraphOriente("meduim")
+            elif self.level == "easy":
+                self.graph = graphe_oriente.GraphOriente("easy")
+                
         else: 
             self.button_r={"1" : pg.bouton("../img/b1.png",1061,260,147,147),"2" : pg.bouton("../img/b2.png",1061,445,147,147), "3" : pg.bouton("../img/b3.png",1061,630,147,147), }
             
@@ -49,9 +60,11 @@ class gameclass:
         self.button_yes_no = { "1" : pg.bouton("../img/oui.png",435,560,147,147),"2" : pg.bouton("../img/non.png",735,560,147,147) }
         
         
+    
+    def timer_on(self):
+        if self.timer%50 >= 49:
+            return True
         
-    
-    
     # i blit all images
     
     def iblitall(self):
@@ -122,9 +135,6 @@ class gameclass:
         self.graph.ajouter_arc(3,1)
         self.graph.ajouter_arc(2,1)
     
-
-    
-    
     # we manage the button
      
     def button(self,event):
@@ -164,20 +174,23 @@ class gameclass:
         cmpt_plays is a function 
         """
         if self.bot_or_human == "bot" and self.player2.joue == True and self.nbr_sticks >1 :
-            
+                print(self.graph)
                 list_neibor = self.graph.liste_sommets_issus(self.nbr_sticks)
                 
                 if len(list_neibor) == 0 : # if the bot have no solutions for win
                     print("bot haven't found solution")
                     self.win(self.player1)
                     return "p2 defeat"
-                    
-                self.graph_back = self.nbr_sticks
+                if self.level == "save":    
+                    self.graph_back = self.nbr_sticks
                 
                 self.nbr_sticks = random.choice(list_neibor)
-                 
-                self.graph_after = self.nbr_sticks
                 
+                if self.level == "save": 
+                    self.graph_after = self.nbr_sticks
+                
+                self.iblitall()
+                   
                 self.change_round()
     
     def human_plays(self,nbr):
@@ -190,6 +203,7 @@ class gameclass:
         if self.nbr_sticks>=int(nbr)+1 :
             self.nbr_sticks -= int(nbr)
             self.change_round() 
+            self.iblitall()
 
 
     #  we manage the end of the game
@@ -207,9 +221,9 @@ class gameclass:
         self.player2.joue = None
         self.augment_score = True
         if self.bot_or_human == "bot":
-            if self.player1.gagne:
-                    self.graph.supprimer_arc(self.graph_back,self.graph_after)
-                    self.graph.save()
+            if self.player1.gagne and self.level == "save":
+                self.graph.supprimer_arc(self.graph_back,self.graph_after)
+                self.graph.save()
         self.end_game(player_win)
         
         
@@ -234,34 +248,40 @@ class gameclass:
         self.background = pygame.image.load('../img/background.png')
                                       
         
-def main(bot_or_human):
+def main(bot_or_human,level):
     
-    game = gameclass(bot_or_human)
+    game = gameclass(bot_or_human,level)
 
     running = True
     while running : 
-            game.iblitall()
+        
+        game.clock.tick(60)
+        
+        for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
+            if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
+                running = False # running est sur False
+            game.button(event)
+        
+        
+        
+        if game.nbr_sticks == 1 and game.player1.joue == True :    
+            game.win(game.player2)
             
-            
-            
-            for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
-                if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
-                    running = False # running est sur False
-                game.button(event)
-                
-            
-            if game.nbr_sticks == 1 and game.player1.joue == True :    
-                game.win(game.player2)
-                
-            if game.nbr_sticks == 1 and game.player2.joue == True :    
-                game.win(game.player1)    
-                            
+        if game.nbr_sticks == 1 and game.player2.joue == True :    
+            game.win(game.player1)    
+        
+        if game.bot_or_human == "bot" and game.player2.joue == True :
             game.computer_play()
-            pygame.display.update()
+            game.timer += 1
+        
+        
+        game.iblitall()
+        
+        pygame.display.update()
                 
 
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main("bot")
+    main("bot","meduim")
