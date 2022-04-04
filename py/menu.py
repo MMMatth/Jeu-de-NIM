@@ -19,12 +19,8 @@ def main():
     
     clic = pg.son("../song/clic.mp3","song")
     
-    boutons={
-        "b1" : pg.bouton("../img/menu_b1.png",585,415,510,145),
-        "b2" : pg.bouton("../img/menu_b2.png",585,600,510,145),
-    }
-
-
+    boutons={"b1" : pg.bouton("../img/menu_b1.png",585,415,510,145),"b2" : pg.bouton("../img/menu_b2.png",585,600,510,145),}
+    
     running = True # variable de la boucle de jeu
 
     ### BOUCLE DE JEU  ###
@@ -39,7 +35,7 @@ def main():
                 if boutons["b1"].click(pygame.mouse.get_pos(),event):
                     clic.play()
                     running = False
-                    game.main("human")
+                    game.main("human","")
                 if boutons["b2"].click(pygame.mouse.get_pos(),event):
                     clic.play()
                     running = False
