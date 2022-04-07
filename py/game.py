@@ -124,6 +124,7 @@ class gameclass:
         if self.player1.joue == True:
             self.player1.joue = False
             self.player2.joue = True
+
         else:
             self.player1.joue = True
             self.player2.joue = False   
@@ -216,7 +217,7 @@ class gameclass:
         if self.nbr_sticks>=int(nbr)+1 :
             self.nbr_sticks -= int(nbr)
             self.change_round() 
-            self.iblitall()
+
 
 
     #  we manage the end of the game
@@ -265,6 +266,8 @@ def main(bot_or_human,level):
     
     game = gameclass(bot_or_human,level)
 
+    cmpt = 0
+    
     running = True
     while running : 
         
@@ -279,13 +282,19 @@ def main(bot_or_human,level):
         
         if game.nbr_sticks == 1 and game.player1.joue == True :    
             game.win(game.player2)
-            
         if game.nbr_sticks == 1 and game.player2.joue == True :    
             game.win(game.player1)    
         
         if game.bot_or_human == "bot" and game.player2.joue == True :
-            game.computer_play()
-            game.timer += 1
+            cmpt += 1
+
+            if cmpt % 50 < 49:
+                game.iblitall()
+                
+            else :
+
+                game.computer_play()
+                game.timer += 1
         
         
         game.iblitall()
