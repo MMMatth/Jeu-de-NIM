@@ -19,35 +19,48 @@ class gameclass:
         pygame.init()
         
         self.bot_or_human = bot_or_human
+        
         self.screen = pygame.display.set_mode((1168,826))
+        
         self.background = pygame.image.load('../img/background.png').convert_alpha()
+        
 
         pygame.display.set_caption("Jeu de Nim") 
+        
         pygame.display.set_icon(pygame.image.load("../img/icon.png"))
         
         self.clock = pygame.time.Clock()
+        
         self.nbr_sticks = 12
+        
         self.augment_score = False
+        
         self.finish = False 
+        
         self.level = level
 
         self.timer = 0
     
         self.player1 = joueur.Joueur()
         self.player2 = joueur.Joueur()
+        
         self.random_player() # we def wo start
         
         self.click_song = pg.son("../song/clic.mp3","song")
         
         if self.bot_or_human == "bot":
+            
             if self.level == "save":
                 self.graph = graphe_oriente.GraphOriente("save")
                 self.create_graph()
                 self.graph.save()
+                
             elif self.level == "hard":
                 self.graph = graphe_oriente.GraphOriente("hard")
+                
             elif self.level == "meduim":
                 self.graph = graphe_oriente.GraphOriente("meduim")
+                
             elif self.level == "easy":
                 self.graph = graphe_oriente.GraphOriente("easy")
                 
@@ -59,13 +72,12 @@ class gameclass:
 
         self.button_yes_no = { "1" : pg.bouton("../img/oui.png",435,560,147,147),"2" : pg.bouton("../img/non.png",735,560,147,147) }
         
-        
-    
-    def timer_on(self):
-        if self.timer%50 >= 49:
-            return True
-        
     # i blit all images
+    def grow(self,bouton):
+        if bouton.rect.collidepoint(pygame.mouse.get_pos()) : 
+            bouton.grow()
+        if not bouton.rect.collidepoint(pygame.mouse.get_pos()) : 
+            bouton.ungrow()
     
     def iblitall(self):
         """iblitall is a function for blit all the picture on the screen"""
@@ -77,7 +89,7 @@ class gameclass:
             
             for i in range(1,3):
                 self.button_yes_no[str(i)].iblit(self.screen)
-                self.button_yes_no[str(i)].hover_big(pygame.mouse.get_pos(),10)
+                self.grow(self.button_yes_no[str(i)])
             
             if self.player1.gagne == True: 
                 pg.img("../img/crown.png",130,160,93,77).iblit(self.screen)
@@ -92,11 +104,11 @@ class gameclass:
             for i in self.button_l: # on blit les bouton de gauche
                 
                 self.button_l[i].iblit(self.screen)
-                self.button_l[i].hover_big(pygame.mouse.get_pos(),10)
+                self.grow(self.button_l[i])
                 
                 if self.bot_or_human == "human":
                     self.button_r[i].iblit(self.screen)
-                    self.button_r[i].hover_big(pygame.mouse.get_pos(),10)
+                    self.grow(self.button_r[i])
                     
             if self.player1.joue == True:
                 pg.text("Joueur 1 ",590, 70,"center",size = 100, color= "white").iblit(self.screen)
@@ -181,6 +193,7 @@ class gameclass:
                     print("bot haven't found solution")
                     self.win(self.player1)
                     return "p2 defeat"
+                
                 if self.level == "save":    
                     self.graph_back = self.nbr_sticks
                 

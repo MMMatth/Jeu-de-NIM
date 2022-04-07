@@ -264,8 +264,8 @@ class bouton:
         self.rect.centerx = x
         self.rect.centery = y
         
-        self.taille_max_w = self.h * 1.20
-        self.taille_max_h = self.w * 1.20
+        self.taille_max_w = self.w + 5
+        self.taille_max_h = self.h + 5
         
         self.unzoom = False
 
@@ -278,6 +278,8 @@ class bouton:
         self.ihover(mousepos)
         if self.rect.collidepoint(mousepos):
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.h = self.taille_max_h - 5
+                self.w = self.taille_max_w - 5
                 return True
 
     def ihover(self, mousepos, imglink=None):
@@ -296,13 +298,16 @@ class bouton:
             self.rect.centerx = self.x
             self.rect.centery = self.y
             
-    def hover_big(self,mousepos,vitesse):
-        if self.h < self.taille_max_h and self.rect.collidepoint(mousepos):
-            self.h += vitesse
-            self.w += vitesse
-        elif self.h > self.taille_max_h/1.20 and not self.rect.collidepoint(mousepos):
-            self.h -= vitesse
-            self.w -= vitesse
+    def grow(self):
+        if self.h < self.taille_max_h + 5 :
+            self.h += 2.5
+            self.w += 2.5
+        
+    def ungrow(self):
+        if self.h > self.taille_max_h - 5:
+            self.h -= 2.5
+            self.w -= 2.5
+        
     
         
 
