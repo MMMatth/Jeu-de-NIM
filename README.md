@@ -14,7 +14,7 @@
 ## 🚀 What is my project ?
 Is a simple game there are 12 sticks and you can took of 1,2 or 3 sticks if a player can take juste one stick he lost ,you can play with a friend or with a computer.
 
-## 💻 python library to install :
+## 💻 Python library to install :
 
 * pygame `pip install pygame`
 
